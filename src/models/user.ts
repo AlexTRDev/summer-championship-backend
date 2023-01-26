@@ -1,26 +1,30 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript'
-import { UserAttributes, UserCreationAttributes } from '../types/user'
-
+import { AllowNull, BelongsToMany, Column, DataType, Default, Model, Table, Unique } from 'sequelize-typescript'
 import { UserStatus } from '../types/enums'
+import { Team } from './Team'
 
-@Table
-export class User extends Model<UserAttributes, UserCreationAttributes> {
-  @Column({
-    type: DataType.STRING(65),
-    allowNull: false,
-  })
+export interface IUser {
+  id?: number
+  email: string
+  password: string
+  status: UserStatus
+}
+
+@Table({ tableName: 'users' })
+export class User extends Model<IUser> implements IUser {
+  @Unique
+  @AllowNull(false)
+  @Column(DataType.STRING(65))
   email!: string
 
-  @Column({
-    type: DataType.STRING(65),
-    allowNull: false,
-  })
+  @AllowNull(false)
+  @Column(DataType.STRING(65))
   password!: string
 
-  @Column({
-    type: DataType.ENUM(...Object.values(UserStatus)),
-    defaultValue: UserStatus.active,
-    allowNull: false,
-  })
+  @AllowNull(false)
+  @Default(UserStatus.ENABLE)
+  @Column(DataType.ENUM(...Object.values(UserStatus)))
   status!: UserStatus
+
+  @BelongsToMany(() => Team, { through: 'favoritos', foreignKey: 'userId', otherKey: 'teamId', timestamps: false })
+  teams!: Team[]
 }
