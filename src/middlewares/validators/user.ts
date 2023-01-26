@@ -9,9 +9,9 @@ export const createUserValidators = [
     .withMessage('Password must be a string')
     .notEmpty()
     .withMessage('Password cannot be empty')
-    .isLength({ min: 8 })
-    .withMessage('Password must be at least 8 characters'),
-  checkValidations,
+    .isLength({ min: 6 })
+    .withMessage('Password must be at least 6 characters'),
+  checkValidations
 ]
 
 export const updateUserValidators = [
@@ -22,5 +22,5 @@ export const updateUserValidators = [
     .withMessage('Password cannot be empty')
     .isIn(['active', 'inactive'])
     .withMessage('role must be active or inactive'),
-  checkValidations,
+  checkValidations
 ]

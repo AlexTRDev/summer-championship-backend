@@ -5,6 +5,7 @@ import { validationResult } from 'express-validator'
 
 export const checkValidations = (req: Request, _res: Response, next: NextFunction): any => {
   const errors = validationResult(req)
+
   if (!errors.isEmpty()) {
     // [{ ..., msg }] -> [msg, msg, ...] -> 'msg. msg. msg. msg'
     const errorMessages = errors.array().map((err) => err.msg)

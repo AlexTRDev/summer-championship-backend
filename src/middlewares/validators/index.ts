@@ -1,2 +1,2 @@
 export * from './checkValidators'
-export * from './userValidators'
+export * from './user'
