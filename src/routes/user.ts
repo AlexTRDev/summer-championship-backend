@@ -1,13 +1,12 @@
-import { createUser, getAllUsers, getUserById, updateById } from '../controllers'
+import { Router } from 'express'
+import { createUser, getAllUsers, getUserById, updateUserById } from '../controllers'
 import { createUserValidators, updateUserValidators, userExists } from '../middlewares'
 
-import express from 'express'
-
-export const userRoutes = express.Router()
+export const userRoutes = Router()
 
 // rutas de acceso
 userRoutes
   .get('/', getAllUsers)
   .get('/:userId', userExists, getUserById)
   .post('/', createUserValidators, createUser)
-  .patch('/:userId', updateUserValidators, userExists, updateById)
+  .patch('/:userId', updateUserValidators, userExists, updateUserById)

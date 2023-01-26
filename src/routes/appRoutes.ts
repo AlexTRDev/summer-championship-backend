@@ -1,7 +1,9 @@
-import express from 'express'
+import { Router } from 'express'
+import { dataRoutes } from './data'
 import { userRoutes } from './user'
 
-export const appRoutes = express.Router()
+export const appRoutes = Router()
 
 // rutas de acceso
 appRoutes.use('/users', userRoutes)
+appRoutes.use('/data', dataRoutes)
