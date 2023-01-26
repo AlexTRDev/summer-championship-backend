@@ -1,6 +1,5 @@
 import * as dotenv from 'dotenv'
-
-import { Mode } from '../types/database'
+import type { Mode } from '../types/Database'
 
 dotenv.config({ path: './config.env' })
 

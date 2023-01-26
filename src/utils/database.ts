@@ -1,9 +1,9 @@
 import { Sequelize } from 'sequelize-typescript'
+import { Calendar, Image, Journey, Manager, Mvp, Player, PlayerStats, Team, TeamStats, User } from '../models'
 import { config } from './config'
-import { User } from '../models'
 
 export const db = new Sequelize({
-  ...config['DEV'],
+  ...config.DEV,
   dialect: 'postgres',
-  models: [User],
+  models: [Calendar, Image, Journey, Manager, Mvp, Player, PlayerStats, Team, TeamStats, User],
 })
