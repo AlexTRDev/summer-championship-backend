@@ -1,45 +1,38 @@
-import { User } from '../models'
-import { UserAttributes } from '../types/user'
+import { genSaltSync, hashSync } from 'bcryptjs'
+import { IUser, User } from '../models'
 import { UserStatus } from '../types/enums'
-import bcrypt from 'bcryptjs'
 
-const create = async (user: UserAttributes): Promise<User> => {
-  const hashedPassword = await passwordHasher(user.password)
-  const newUser = await User.create({
+const create = async (user: IUser): Promise<User> => {
+  return await User.create({
     email: user.email,
-    password: hashedPassword,
-    status: UserStatus.active,
+    password: passwordHasher(user.password),
+    status: UserStatus.ENABLE,
   })
-
-  return newUser
 }
 
-const update = async (user: User, userUpdate: UserAttributes): Promise<User> => {
-  const data = await user.update(userUpdate)
-  return data
+const update = async (user: User, userUpdate: IUser): Promise<User> => {
+  return await user.update(userUpdate)
 }
 
-const passwordHasher = async (password: string): Promise<string> => {
-  const salt = await bcrypt.genSalt(12)
-  const hashedPassword = await bcrypt.hash(password, salt)
+const passwordHasher = (password: string): string => {
+  const salt = genSaltSync(12)
+  const hashedPassword = hashSync(password, salt)
   return hashedPassword
 }
 
 const getById = async (id: number): Promise<User | null> => {
-  const user = await User.findByPk(id, {
+  return await User.findByPk(id, {
     attributes: {
       exclude: ['password'],
     },
   })
-  return user
 }
 
 const getAll = async (): Promise<User[]> => {
-  const users = await User.findAll({
+  return await User.findAll({
     attributes: { exclude: ['password'] },
-    where: { status: 'active' },
+    where: { status: UserStatus.ENABLE },
   })
-  return users
 }
 
 export const userServices = {
