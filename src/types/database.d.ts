@@ -1,4 +1,4 @@
-export type dialectOptions = {
+export interface dialectOptions {
   bigNumberStrings: boolean
 }
 
@@ -12,7 +12,7 @@ export interface ConfigDB {
   dialectOptions?: dialectOptions
 }
 
-export type Mode = {
+export interface Mode {
   DEV: ConfigDB
   PROD: ConfigDB
 }
