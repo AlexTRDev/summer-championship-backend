@@ -1,15 +1,12 @@
 import { app } from './app'
 import { db } from './utils'
-import { initRelations } from './models'
-
-// Utils
 
 const startServer = async () => {
   try {
+    // Authenticate and synchrony with the database
     await db.authenticate()
-    // Establish the relations between models
-    void initRelations()
     await db.sync({ force: true })
+
     // Set server to listen
     const PORT = 8000
     app.listen(PORT, () => {
