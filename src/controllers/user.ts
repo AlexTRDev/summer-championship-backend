@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from 'express'
+import type { NextFunction, Request, Response } from 'express'
+import type { IUser } from '../models'
 import { userServices } from '../services'
 
-import { UserAttributes } from '../types/user'
 import { catchAsync } from '../utils'
 
 export const getAllUsers = catchAsync(async (_req: Request, res: Response, _next: NextFunction) => {
@@ -22,7 +22,7 @@ export const getUserById = catchAsync(async (req: Request, res: Response, _next:
 })
 
 export const createUser = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
-  const user: UserAttributes = req.body
+  const user: IUser = req.body
   const data = await userServices.create(user)
 
   res.status(201).json({
@@ -31,8 +31,8 @@ export const createUser = catchAsync(async (req: Request, res: Response, _next: 
   })
 })
 
-export const updateById = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
-  const userUpdate: UserAttributes = req.body
+export const updateUserById = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
+  const userUpdate: IUser = req.body
   const { user } = req
   const data = await userServices.update(user, userUpdate)
   res.status(200).json({
