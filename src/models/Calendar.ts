@@ -1,4 +1,4 @@
-import { BelongsTo, Column, ForeignKey, Model, Table } from 'sequelize-typescript'
+import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
 import { Journey } from './Journey'
 import { Mvp } from './Mvp'
 import { Team } from './Team'
@@ -20,26 +20,32 @@ export interface CalendarResponse {
 
 @Table({ timestamps: false, tableName: 'calendars' })
 export class Calendar extends Model<ICalendar> implements ICalendar {
-  @Column
+  @Column({
+    type: DataType.INTEGER,
+    defaultValue: 0,
+  })
   homeGoals!: number
 
-  @Column
+  @Column({
+    type: DataType.INTEGER,
+    defaultValue: 0,
+  })
   awayGoals!: number
 
   @ForeignKey(() => Team)
-  @Column
+  @Column(DataType.INTEGER)
   homeTeamId!: number
 
   @ForeignKey(() => Team)
-  @Column
+  @Column(DataType.INTEGER)
   awayTeamId!: number
 
   @ForeignKey(() => Journey)
-  @Column
+  @Column(DataType.INTEGER)
   journeyId!: number
 
   @ForeignKey(() => Mvp)
-  @Column
+  @Column(DataType.INTEGER)
   mvpId!: number
 
   @BelongsTo(() => Team)
