@@ -1,14 +1,4 @@
-import {
-  AllowNull,
-  BelongsToMany,
-  Column,
-  DataType,
-  Default,
-  HasMany,
-  Model,
-  Table,
-  Unique,
-} from 'sequelize-typescript'
+import { BelongsToMany, Column, DataType, HasMany, Model, Table } from 'sequelize-typescript'
 
 import { SerieTeam } from '../types/enums'
 import { Manager } from './Manager'
@@ -25,16 +15,24 @@ export interface ITeam {
 
 @Table({ tableName: 'teams' })
 export class Team extends Model<ITeam> implements ITeam {
-  @AllowNull(false)
-  @Unique
-  @Column(DataType.STRING(65))
+  @Column({
+    type: DataType.STRING(50),
+    allowNull: false,
+  })
   name!: string
 
-  @Default(SerieTeam.A)
-  @Column(DataType.ENUM(...Object.values(SerieTeam)))
+  @Column({
+    type: DataType.ENUM(...Object.values(SerieTeam)),
+    allowNull: false,
+    defaultValue: SerieTeam.A,
+  })
   serie!: SerieTeam
 
-  @Column(DataType.INTEGER)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+    defaultValue: 2023,
+  })
   season!: number
 
   @HasMany(() => TeamStats)
