@@ -1,6 +1,7 @@
-import { ICalendar, Calendar } from '../models'
+import { Calendar, ICalendar, ICalendarCreation, Team } from '../models'
+import type { IQueriesCalendar } from '../types/Queries'
 
-const create = async (data: ICalendar): Promise<Calendar> => {
+const create = async (data: ICalendarCreation): Promise<Calendar> => {
   return await Calendar.create(data)
 }
 
@@ -12,8 +13,32 @@ const getById = async (id: number): Promise<Calendar | null> => {
   return await Calendar.findByPk(id)
 }
 
-const getAll = async (): Promise<Calendar[]> => {
-  return await Calendar.findAll()
+const getAll = async ({ isInclude, journeyId }: IQueriesCalendar): Promise<Calendar[]> => {
+  const include: any = isInclude
+    ? [
+        {
+          model: Team,
+          as: 'homeTeam',
+          attributes: {
+            exclude: ['presentation', 'createdAt', 'updatedAt'],
+          },
+        },
+        {
+          model: Team,
+          as: 'awayTeam',
+          attributes: {
+            exclude: ['presentation', 'createdAt', 'updatedAt'],
+          },
+        },
+      ]
+    : undefined
+
+  const where = journeyId ? { journeyId } : undefined
+
+  return await Calendar.findAll({
+    include,
+    where,
+  })
 }
 
 const remove = async (data: Calendar): Promise<boolean> => {
