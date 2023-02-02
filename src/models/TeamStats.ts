@@ -1,4 +1,5 @@
-import { AllowNull, BelongsTo, Column, DataType, Default, ForeignKey, Model, Table } from 'sequelize-typescript'
+import type { Optional } from 'sequelize'
+import { BelongsTo, Column, DataType, Default, ForeignKey, Model, Table } from 'sequelize-typescript'
 import { Team } from './Team'
 
 export interface ITeamStats {
@@ -9,55 +10,59 @@ export interface ITeamStats {
   matchesTied: number
   goalsFor: number
   goalsAgainst: number
+  goalDifference: number
   yellowCards: number
   redCards: number
   points: number
   teamId: number
 }
+export interface ITeamStatsCreation extends Optional<ITeamStats, 'id'> {}
 
-@Table({ tableName: 'team_stats', timestamps: false })
-export class TeamStats extends Model<ITeamStats> implements ITeamStats {
-  @AllowNull(false)
+@Table({
+  tableName: 'team_stats',
+  timestamps: false,
+})
+export class TeamStats extends Model<ITeamStats, ITeamStatsCreation> implements ITeamStats {
   @Default(0)
   @Column(DataType.INTEGER)
   gamesPlayed!: number
 
-  @AllowNull(false)
   @Default(0)
   @Column(DataType.INTEGER)
   macthesWon!: number
 
-  @AllowNull(false)
   @Default(0)
   @Column(DataType.INTEGER)
   matchesLost!: number
 
-  @AllowNull(false)
   @Default(0)
   @Column(DataType.INTEGER)
   matchesTied!: number
 
-  @AllowNull(false)
   @Default(0)
   @Column(DataType.INTEGER)
   goalsFor!: number
 
-  @AllowNull(false)
   @Default(0)
   @Column(DataType.INTEGER)
   goalsAgainst!: number
 
-  @AllowNull(false)
+  @Column({
+    type: DataType.VIRTUAL,
+    get() {
+      return this.dataValues.goalsFor - this.dataValues.goalsAgainst
+    },
+  })
+  goalDifference!: number
+
   @Default(0)
   @Column(DataType.INTEGER)
   yellowCards!: number
 
-  @AllowNull(false)
   @Default(0)
   @Column(DataType.INTEGER)
   redCards!: number
 
-  @AllowNull(false)
   @Default(0)
   @Column(DataType.INTEGER)
   points!: number

@@ -1,6 +1,6 @@
 import { AllowNull, BelongsTo, Column, DataType, Default, ForeignKey, Model, Table, Unique } from 'sequelize-typescript'
+import { Gender } from '../types/enums'
 
-import { Genre } from '../types/enums'
 import type { IPerson } from '../types/Person'
 import { Team } from './Team'
 
@@ -29,9 +29,9 @@ export class Manager extends Model<IManager> implements IManager {
   birthday!: string
 
   @AllowNull(false)
-  @Default(Genre.MASCULINO)
-  @Column(DataType.ENUM(...Object.values(Genre)))
-  genre!: Genre
+  @Default(Gender.MASCULINO)
+  @Column(DataType.ENUM(...Object.values(Gender)))
+  gender!: Gender
 
   @ForeignKey(() => Team)
   teamId!: number

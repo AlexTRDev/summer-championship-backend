@@ -1,3 +1,4 @@
+import type { Optional } from 'sequelize'
 import {
   AllowNull,
   BelongsTo,
@@ -10,8 +11,9 @@ import {
   Table,
   Unique,
 } from 'sequelize-typescript'
-import { Genre } from '../types/enums'
+import { Gender } from '../types/enums'
 import type { IPerson } from '../types/Person'
+import { Image } from './Image'
 import { Mvp } from './Mvp'
 
 import { PlayerStats } from './PlayerStats'
@@ -20,11 +22,11 @@ import { Team } from './Team'
 export interface IPlayer extends IPerson {
   id?: number
   teamId: number
-  statsId: number
 }
+export interface IPlayerCreation extends Optional<IPlayer, 'id'> {}
 
 @Table({ tableName: 'players' })
-export class Player extends Model<IPerson> implements IPerson {
+export class Player extends Model<IPlayer, IPlayerCreation> implements IPlayer {
   @AllowNull(false)
   @Unique
   @Column(DataType.STRING(10))
@@ -43,9 +45,9 @@ export class Player extends Model<IPerson> implements IPerson {
   birthday!: string
 
   @AllowNull(false)
-  @Default(Genre.MASCULINO)
-  @Column(DataType.ENUM(...Object.values(Genre)))
-  genre!: Genre
+  @Default(Gender.MASCULINO)
+  @Column(DataType.ENUM(...Object.values(Gender)))
+  gender!: Gender
 
   @ForeignKey(() => Team)
   teamId!: number
@@ -54,8 +56,11 @@ export class Player extends Model<IPerson> implements IPerson {
   team!: Team
 
   @HasMany(() => PlayerStats)
-  stats!: PlayerStats[]
+  playerStats!: PlayerStats[]
 
   @HasMany(() => Mvp)
   mvps!: Mvp[]
+
+  @HasMany(() => Image)
+  images!: Mvp[]
 }

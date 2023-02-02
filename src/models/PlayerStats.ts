@@ -1,3 +1,4 @@
+import type { Optional } from 'sequelize'
 import { AllowNull, BelongsTo, Column, DataType, Default, ForeignKey, Model, Table } from 'sequelize-typescript'
 import { Player } from './Player'
 
@@ -8,9 +9,10 @@ export interface IPlayerStats {
   numberAsists: number
   playerId: number
 }
+export interface IPlayerStatsCreation extends Optional<IPlayerStats, 'id'> {}
 
 @Table({ tableName: 'player_stats', timestamps: false })
-export class PlayerStats extends Model<IPlayerStats> implements IPlayerStats {
+export class PlayerStats extends Model<IPlayerStats, IPlayerStatsCreation> implements IPlayerStats {
   @AllowNull(false)
   @Default(0)
   @Column(DataType.INTEGER)

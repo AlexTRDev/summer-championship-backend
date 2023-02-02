@@ -11,10 +11,11 @@ export interface ITeam {
   name: string
   serie: SerieTeam
   season: number
+  presentation: boolean
 }
 
 @Table({ tableName: 'teams' })
-export class Team extends Model<ITeam> implements ITeam {
+export class Team extends Model<ITeam> {
   @Column({
     type: DataType.STRING(50),
     allowNull: false,
@@ -35,8 +36,14 @@ export class Team extends Model<ITeam> implements ITeam {
   })
   season!: number
 
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: false,
+  })
+  presentation!: boolean
+
   @HasMany(() => TeamStats)
-  stats!: TeamStats[]
+  teamStats!: TeamStats[]
 
   @HasMany(() => Player)
   players!: Player[]
