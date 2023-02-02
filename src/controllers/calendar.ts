@@ -1,15 +1,18 @@
 import type { NextFunction, Request, Response } from 'express'
-import type { ICalendar } from '../models'
+import type { ICalendarCreation } from '../models'
 
 import { calendarServices } from '../services'
+import type { IQueriesCalendar } from '../types/Queries'
 import { catchAsync } from '../utils'
 
-export const getAllCalendars = catchAsync(async (_req: Request, res: Response, _next: NextFunction) => {
-  const data = await calendarServices.getAll()
+export const getAllCalendars = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
+  const queries: IQueriesCalendar = req.query
+
+  const calendars = await calendarServices.getAll(queries)
 
   res.status(200).json({
     status: 'success',
-    data,
+    calendars,
   })
 })
 
@@ -22,7 +25,7 @@ export const getCalendarById = catchAsync(async (req: Request, res: Response, _n
 })
 
 export const createCalendar = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
-  const calendar: ICalendar = req.body
+  const calendar: ICalendarCreation = req.body
   const data = await calendarServices.create(calendar)
 
   res.status(201).json({
@@ -32,7 +35,7 @@ export const createCalendar = catchAsync(async (req: Request, res: Response, _ne
 })
 
 export const updateCalendarById = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
-  const calendarUpdate: ICalendar = req.body
+  const calendarUpdate: ICalendarCreation = req.body
   const { calendar } = req
   const data = await calendarServices.update(calendar, calendarUpdate)
   res.status(200).json({

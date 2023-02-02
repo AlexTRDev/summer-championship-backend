@@ -5,11 +5,11 @@ import { journeyServices } from '../services'
 import { catchAsync } from '../utils'
 
 export const getAllJourneys = catchAsync(async (_req: Request, res: Response, _next: NextFunction) => {
-  const data = await journeyServices.getAll()
+  const journeys = await journeyServices.getAll()
 
   res.status(200).json({
     status: 'success',
-    data,
+    journeys,
   })
 })
 

@@ -2,14 +2,14 @@ import type { NextFunction, Request, Response } from 'express'
 import type { ITeam } from '../models'
 
 import { teamServices } from '../services'
-import { catchAsync } from '../utils'
+import { AppError, catchAsync } from '../utils'
 
 export const getAllTeams = catchAsync(async (_req: Request, res: Response, _next: NextFunction) => {
-  const data = await teamServices.getAll()
+  const teams = await teamServices.getAll()
 
   res.status(200).json({
     status: 'success',
-    data,
+    teams,
   })
 })
 
@@ -17,18 +17,16 @@ export const getTeamById = catchAsync(async (req: Request, res: Response, _next:
   const { team } = req
   res.status(200).json({
     status: 'success',
-    data: team,
+    team,
   })
 })
 
-export const createTeam = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
-  const team: ITeam = req.body
-  const data = await teamServices.create(team)
+export const createTeam = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  const data: ITeam = req.body
+  const team = await teamServices.create(data)
 
-  res.status(201).json({
-    status: 'success',
-    data,
-  })
+  if (data instanceof AppError) return next(data)
+  else res.status(201).json({ status: 'success', team })
 })
 
 export const updateTeamById = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
