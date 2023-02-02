@@ -9,7 +9,7 @@ export enum SerieTeam {
   C = 'C',
 }
 
-export enum Genre {
+export enum Gender {
   MASCULINO = 'M',
   FEMENINO = 'F',
   OTRO = 'O',
