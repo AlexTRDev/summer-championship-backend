@@ -22,6 +22,8 @@ const update = async (data: Team, dataUpdate: ITeam): Promise<Team> => {
 }
 
 const getById = async (id: number): Promise<Team | null> => {
+  console.log('entra', id)
+
   return await Team.findOne({
     attributes: {
       exclude: ['createdAt', 'updatedAt'],
@@ -37,11 +39,9 @@ const getById = async (id: number): Promise<Team | null> => {
           {
             model: Image,
             attributes: ['url', 'description'],
-            required: true,
           },
           {
             model: PlayerStats,
-            required: true,
           },
         ],
       },
