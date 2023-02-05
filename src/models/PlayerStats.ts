@@ -1,5 +1,5 @@
 import type { Optional } from 'sequelize'
-import { AllowNull, BelongsTo, Column, DataType, Default, ForeignKey, Model, Table } from 'sequelize-typescript'
+import { BelongsTo, Column, DataType, Default, ForeignKey, Model, Table } from 'sequelize-typescript'
 import { Player } from './Player'
 
 export interface IPlayerStats {
@@ -7,26 +7,34 @@ export interface IPlayerStats {
   gamesPlayed: number
   goalsScored: number
   numberAsists: number
+  yellowCards: number
+  redCards: number
   playerId: number
 }
-export interface IPlayerStatsCreation extends Optional<IPlayerStats, 'id'> {}
+
+export interface IPlayerStatsCreation extends Optional<IPlayerStats, 'id' | 'yellowCards' | 'redCards'> {}
 
 @Table({ tableName: 'player_stats', timestamps: false })
 export class PlayerStats extends Model<IPlayerStats, IPlayerStatsCreation> implements IPlayerStats {
-  @AllowNull(false)
   @Default(0)
   @Column(DataType.INTEGER)
   gamesPlayed!: number
 
-  @AllowNull(false)
   @Default(0)
   @Column(DataType.INTEGER)
   goalsScored!: number
 
-  @AllowNull(false)
   @Default(0)
   @Column(DataType.INTEGER)
   numberAsists!: number
+
+  @Default(0)
+  @Column(DataType.INTEGER)
+  yellowCards!: number
+
+  @Default(0)
+  @Column(DataType.INTEGER)
+  redCards!: number
 
   @ForeignKey(() => Player)
   playerId!: number
