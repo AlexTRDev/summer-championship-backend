@@ -3,7 +3,7 @@ import { Calendar, Image, Journey, Manager, Mvp, Player, PlayerStats, Team, Team
 import { config } from './config'
 
 export const db = new Sequelize({
-  ...config.DEV,
+  ...config.PROD,
   dialect: 'postgres',
   models: [Calendar, Image, Journey, Manager, Mvp, Player, PlayerStats, Team, TeamStats, User],
 })

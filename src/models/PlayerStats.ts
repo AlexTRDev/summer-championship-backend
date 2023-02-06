@@ -7,8 +7,8 @@ export interface IPlayerStats {
   gamesPlayed: number
   goalsScored: number
   numberAsists: number
-  yellowCards: number
-  redCards: number
+  yellowCards?: number
+  redCards?: number
   playerId: number
 }
 
