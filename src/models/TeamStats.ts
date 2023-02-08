@@ -47,11 +47,9 @@ export class TeamStats extends Model<ITeamStats, ITeamStatsCreation> implements 
   @Column(DataType.INTEGER)
   goalsAgainst!: number
 
+  @Default(0)
   @Column({
-    type: DataType.VIRTUAL,
-    get() {
-      return this.dataValues.goalsFor - this.dataValues.goalsAgainst
-    },
+    type: DataType.INTEGER,
   })
   goalDifference!: number
 
