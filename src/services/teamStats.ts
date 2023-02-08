@@ -27,6 +27,12 @@ const getAll = async ({ isInclude, serie }: IQueriesTeamStats): Promise<TeamStat
 
   return await TeamStats.findAll({
     include,
+    order: [
+      ['points', 'DESC'],
+      ['goalDifference', 'DESC'],
+      ['goalsFor', 'DESC'],
+      ['goalsAgainst', 'DESC'],
+    ],
   })
 }
 
