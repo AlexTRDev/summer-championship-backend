@@ -34,6 +34,16 @@ export const createCalendar = catchAsync(async (req: Request, res: Response, _ne
   })
 })
 
+export const bulkCalendars = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
+  const { calendars } = req.body
+  const data = await calendarServices.bulk(calendars)
+
+  res.status(201).json({
+    status: 'success',
+    data,
+  })
+})
+
 export const updateCalendarById = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
   const calendarUpdate: ICalendarCreation = req.body
   const { calendar } = req

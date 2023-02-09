@@ -50,3 +50,10 @@ export const deletePlayer = catchAsync(async (req, res, next) => {
     next(new Error('Failed to remove player'))
   }
 })
+
+export const bulkPlayers = catchAsync(async (req, res, _next) => {
+  const { players } = req.body
+  const data = await playerServices.bulkCreate(players)
+
+  res.status(200).json({ status: 'success', data })
+})

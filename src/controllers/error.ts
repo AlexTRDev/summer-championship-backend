@@ -38,9 +38,7 @@ const globalErrorHandler = (error: AppError, req: Request, res: Response, _next:
   error.statusCode = error.statusCode ?? 500
   error.status = error.status ?? 'fail'
 
-  if (process.env.NODE_ENV === 'DEV') {
-    sendErrorDev(error, req, res)
-  } else if (process.env.NODE_ENV === 'PROD') {
+  if (process.env.NODE_ENV === 'production') {
     let err = { ...error }
 
     if (error.name === 'TokenExpiredError') err = tokenExpiredError()
@@ -50,6 +48,8 @@ const globalErrorHandler = (error: AppError, req: Request, res: Response, _next:
       err = dbUniqueConstraintError()
     }
     sendErrorProd(err, req, res)
+  } else {
+    sendErrorDev(error, req, res)
   }
 }
 export { globalErrorHandler }
