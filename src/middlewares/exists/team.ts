@@ -7,9 +7,11 @@ import { teamServices } from '../../services'
 export const teamExists = catchAsync(async (req: Request, _res: Response, next: NextFunction): Promise<void> => {
   const { teamId } = req.params
 
+  console.log('entra', teamId)
   const team = await teamServices.getById(Number(teamId))
 
   if (team === null) {
+    console.log(team)
     return next(new AppError('Team not found', 404))
   }
 
