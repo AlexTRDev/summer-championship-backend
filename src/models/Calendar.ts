@@ -10,9 +10,9 @@ export interface ICalendar {
   homeScore: number
   awayScore: number
   homeTeamId: number
-  awayTeamId: number
+  awayTeamId?: number
   journeyId: number
-  mvpId: number
+  mvpId?: number
 }
 export interface ICalendarCreation extends Optional<ICalendar, 'id'> {}
 
