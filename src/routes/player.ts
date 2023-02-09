@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { createPlayer, deletePlayer, getAllPlayers, getPlayerById, updatePlayerById } from '../controllers'
+import { bulkPlayers, createPlayer, deletePlayer, getAllPlayers, getPlayerById, updatePlayerById } from '../controllers'
 import { createPlayerValidators, updatePlayerValidators, playerExists } from '../middlewares'
 
 export const playerRoutes = Router()
@@ -11,3 +11,4 @@ playerRoutes
   .post('/', createPlayerValidators, createPlayer)
   .patch('/:playerId', updatePlayerValidators, playerExists, updatePlayerById)
   .delete('/:playerId', playerExists, deletePlayer)
+  .post('/bulk', bulkPlayers)
