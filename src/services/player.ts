@@ -32,7 +32,7 @@ const getById = async (id: number): Promise<Player | null> => {
 
 const getAll = async (): Promise<Player[]> => {
   return await Player.findAll({
-    // include: [PlayerStats, Image],
+    include: [PlayerStats],
   })
 }
 
@@ -45,10 +45,26 @@ const remove = async (data: Player): Promise<boolean> => {
   }
 }
 
+const bulkCreate = async (data: IPlayer[]): Promise<Player[]> => {
+  const players = await Player.bulkCreate(data)
+
+  console.log('players', data)
+
+  for (let i = 0; i < players.length; i++) {
+    await PlayerStats.create({
+      playerId: players[i].id,
+      goalsScored: data[i].stats?.goalsScored,
+    })
+  }
+
+  return players
+}
+
 export const playerServices = {
   getById,
   getAll,
   create,
   update,
   remove,
+  bulkCreate,
 }

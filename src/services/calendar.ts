@@ -2,7 +2,13 @@ import { Calendar, ICalendar, ICalendarCreation, Team } from '../models'
 import type { IQueriesCalendar } from '../types/Queries'
 
 const create = async (data: ICalendarCreation): Promise<Calendar> => {
+  console.log(data)
+
   return await Calendar.create(data)
+}
+
+const bulk = async (data: ICalendarCreation[]): Promise<Calendar[]> => {
+  return await Calendar.bulkCreate(data)
 }
 
 const update = async (data: Calendar, dataUpdate: ICalendar): Promise<Calendar> => {
@@ -38,6 +44,7 @@ const getAll = async ({ isInclude, journeyId }: IQueriesCalendar): Promise<Calen
   return await Calendar.findAll({
     include,
     where,
+    order: [['number', 'ASC']],
   })
 }
 
@@ -56,4 +63,5 @@ export const calendarServices = {
   create,
   update,
   remove,
+  bulk,
 }

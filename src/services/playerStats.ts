@@ -14,10 +14,7 @@ const getById = async (id: number): Promise<PlayerStats | null> => {
   return await PlayerStats.findByPk(id)
 }
 
-const getAll = async ({
-  isInclude,
-  order: orderType = 'numberAsists',
-}: IQueriesPlayerStats): Promise<PlayerStats[]> => {
+const getAll = async ({ isInclude, order: orderType = 'goalsScored' }: IQueriesPlayerStats): Promise<PlayerStats[]> => {
   const include = isInclude
     ? {
         model: Player,
@@ -25,15 +22,18 @@ const getAll = async ({
     : undefined
 
   const order: any = orderType ? [[`${orderType}`, 'desc']] : undefined
+  const where = orderType
+    ? {
+        [orderType]: {
+          [Op.gt]: 0,
+        },
+      }
+    : undefined
 
   return await PlayerStats.findAll({
     include,
     order,
-    where: {
-      [orderType]: {
-        [Op.gt]: 0,
-      },
-    },
+    where,
   })
 }
 
