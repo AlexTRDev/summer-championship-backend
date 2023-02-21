@@ -1,23 +1,9 @@
-import { genSaltSync, hashSync } from 'bcryptjs'
+import type { UserRecord } from 'firebase-admin/lib/auth/user-record'
 import { IUser, User } from '../models'
-import { UserStatus } from '../types/enums'
-
-const create = async (user: IUser): Promise<User> => {
-  return await User.create({
-    email: user.email,
-    password: passwordHasher(user.password),
-    status: UserStatus.ENABLE,
-  })
-}
+import { UserRole, Status } from '../types/enums'
 
 const update = async (user: User, userUpdate: IUser): Promise<User> => {
   return await user.update(userUpdate)
-}
-
-const passwordHasher = (password: string): string => {
-  const salt = genSaltSync(12)
-  const hashedPassword = hashSync(password, salt)
-  return hashedPassword
 }
 
 const getById = async (id: number): Promise<User | null> => {
@@ -28,16 +14,58 @@ const getById = async (id: number): Promise<User | null> => {
   })
 }
 
+const getOne = async (id: number, _query: string): Promise<User | null> => {
+  return await User.findOne({
+    where: {
+      id,
+      // ...query
+    },
+    attributes: {
+      exclude: ['password'],
+    },
+  })
+}
+
 const getAll = async (): Promise<User[]> => {
   return await User.findAll({
     attributes: { exclude: ['password'] },
-    where: { status: UserStatus.ENABLE },
+    where: { status: Status.ENABLE },
   })
+}
+
+const getByEmail = async (email: string): Promise<User | null> => {
+  return await User.findOne({
+    where: { email, status: Status.ENABLE },
+  })
+}
+
+const signUp = async (userRecord: UserRecord): Promise<User> => {
+  const admin = process.env.USER_ADMIN
+
+  const [user, created] = await User.findOrCreate({
+    where: {
+      email: userRecord.email,
+    },
+    defaults: {
+      role: userRecord.email === admin ? UserRole.ADMIN : UserRole.CLIENT,
+      name: userRecord.displayName,
+      email: userRecord.email,
+      password: userRecord.passwordHash,
+      photo: userRecord.photoURL,
+      status: Status.ENABLE,
+    },
+  })
+
+  if (created) await user.createWallet()
+
+  return user
 }
 
 export const userServices = {
   getById,
+  getByEmail,
   getAll,
-  create,
   update,
+  signUp,
+  getOne,
 }

@@ -45,10 +45,15 @@ const remove = async (data: TeamStats): Promise<boolean> => {
   }
 }
 
+const bulkCreate = async (data: ITeamStats[]): Promise<TeamStats[]> => {
+  return await TeamStats.bulkCreate(data)
+}
+
 export const teamStatsServices = {
   getById,
   getAll,
   create,
   update,
   remove,
+  bulkCreate,
 }

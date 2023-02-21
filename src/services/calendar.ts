@@ -2,8 +2,6 @@ import { Calendar, ICalendar, ICalendarCreation, Team } from '../models'
 import type { IQueriesCalendar } from '../types/Queries'
 
 const create = async (data: ICalendarCreation): Promise<Calendar> => {
-  console.log(data)
-
   return await Calendar.create(data)
 }
 
