@@ -1,4 +1,8 @@
-import type { Request, Response, NextFunction } from 'express'
+import type { NextFunction, Request, Response } from 'express'
+import { userServices } from '../../services'
+import { Status } from '../../types/enums'
+// import type { User } from '../../models'
+import { AppError, authApp, catchAsync } from '../../utils'
 // import dotenv from 'dotenv'
 
 // Models
@@ -74,3 +78,28 @@ export const protectAdmin = (_req: Request, _res: Response, next: NextFunction):
 
   next()
 }
+
+export const protectSession = catchAsync(async (req: Request, _res: Response, next: NextFunction) => {
+  const authToken = req.headers.authorization
+  if (!authToken || !authToken.startsWith('Bearer ')) {
+    return next(new AppError('A valid authentication token was not provided.', 401))
+  }
+  const idToken = authToken.replace('Bearer ', '')
+  try {
+    const decodedToken = await authApp.verifyIdToken(idToken)
+    const userRecord = await authApp.getUser(decodedToken.uid)
+
+    if (!userRecord) {
+      return next(new AppError('The session is no longer active', 403))
+    }
+
+    const user = await userServices.signUp(userRecord)
+
+    if (user.status === Status.DISABLE) return next(new AppError('The user esta temporalmente bloqueado', 401))
+
+    req.sesionUser = user
+    next()
+  } catch (error) {
+    return next(new AppError('Error getting user information.', 500))
+  }
+})
