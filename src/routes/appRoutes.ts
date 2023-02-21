@@ -5,9 +5,14 @@ import { imageRoutes } from './image'
 import { journeyRoutes } from './journey'
 import { playerRoutes } from './player'
 import { playerStatsRoutes } from './playerStats'
+import { predictionRoutes } from './prediction'
+import { resultRoutes } from './result'
 import { teamRoutes } from './team'
 import { teamStatsRoutes } from './teamStats'
+import { ticketRoutes } from './ticket'
+import { transactionRoutes } from './transaction'
 import { userRoutes } from './user'
+import { walletRoutes } from './wallet'
 
 export const appRoutes = Router()
 
@@ -21,3 +26,8 @@ appRoutes.use('/playerStats', playerStatsRoutes)
 appRoutes.use('/teams', teamRoutes)
 appRoutes.use('/teamStats', teamStatsRoutes)
 appRoutes.use('/users', userRoutes)
+appRoutes.use('/wallets', walletRoutes)
+appRoutes.use('/transactions', transactionRoutes)
+appRoutes.use('/predictions', predictionRoutes)
+appRoutes.use('/results', resultRoutes)
+appRoutes.use('/tickets', ticketRoutes)

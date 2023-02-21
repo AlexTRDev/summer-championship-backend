@@ -18,9 +18,9 @@ export const calendarRoutes = Router()
 
 // rutas de acceso
 calendarRoutes
+  .post('/admin/bulk', bulkCalendars)
   .get('/', getAllJourneyValidators, getAllCalendars)
   .get('/:calendarId', calendarExists, getCalendarById)
   .post('/', createCalendarValidators, createCalendar)
-  .post('/bulk', bulkCalendars)
   .patch('/:calendarId', updateCalendarValidators, calendarExists, updateCalendarById)
   .delete('/:calendarId', calendarExists, deleteCalendar)
