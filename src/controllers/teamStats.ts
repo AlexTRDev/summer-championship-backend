@@ -55,3 +55,10 @@ export const deleteTeamStats = catchAsync(async (req, res, next) => {
     next(new Error('Failed to remove journey'))
   }
 })
+
+export const bulkTeamStats = catchAsync(async (req, res, _next) => {
+  const { teamStats } = req.body
+  const data = await teamStatsServices.bulkCreate(teamStats)
+
+  res.status(200).json({ status: 'success', data })
+})

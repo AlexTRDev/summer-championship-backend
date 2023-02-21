@@ -5,29 +5,18 @@ import { userServices } from '../services'
 import { catchAsync } from '../utils'
 
 export const getAllUsers = catchAsync(async (_req: Request, res: Response, _next: NextFunction) => {
-  const data = await userServices.getAll()
+  const users = await userServices.getAll()
 
   res.status(200).json({
     status: 'success',
-    data,
+    users,
   })
 })
 
 export const getUserById = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
-  const { user } = req
   res.status(200).json({
     status: 'success',
-    data: user,
-  })
-})
-
-export const createUser = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
-  const user: IUser = req.body
-  const data = await userServices.create(user)
-
-  res.status(201).json({
-    status: 'success',
-    data,
+    user: req.user,
   })
 })
 
@@ -37,7 +26,21 @@ export const updateUserById = catchAsync(async (req: Request, res: Response, _ne
   const data = await userServices.update(user, userUpdate)
   res.status(200).json({
     status: 'success',
-    data,
+    user: data,
+  })
+})
+
+export const signUpUser = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
+  res.status(201).json({
+    status: 'success',
+    user: req.sesionUser,
+  })
+})
+
+export const signOutUser = catchAsync(async (_req: Request, res: Response, _next: NextFunction) => {
+  res.status(201).json({
+    status: 'success',
+    user: null,
   })
 })
 
