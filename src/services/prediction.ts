@@ -1,4 +1,4 @@
-import { IPrediction, ITicket, ITransaction, Prediction, Ticket, Transaction, Wallet } from '../models'
+import { IPrediction, ITicket, Prediction, Ticket, Wallet } from '../models'
 import { AppError, db } from '../utils'
 
 const create = async (data: IPrediction): Promise<Prediction> => {
@@ -40,21 +40,20 @@ const bulk = async (data: IPrediction[], ticket: ITicket, userId: number, wallet
   if (amount > balance) {
     throw new AppError('Insufficient funds', 400)
   }
-  const description = `Compra de la polla del campeonato de verano!!`
-  const transac: ITransaction = { amount, description, userId }
 
   try {
     const newTicket = await Ticket.create({ ...ticket, userId }, { transaction })
 
+    let newPredictions: Prediction[] = []
     const predictions: IPrediction[] = data.map((prediction) => {
       return {
         ...prediction,
         ticketId: newTicket.id,
       }
     })
-    const newPredictions = await Prediction.bulkCreate(predictions, { transaction })
 
-    await Transaction.create(transac, { transaction })
+    newPredictions = await Prediction.bulkCreate(predictions, { transaction })
+
     await wallet.update({ balance: balance - amount }, { transaction })
 
     await transaction.commit()
