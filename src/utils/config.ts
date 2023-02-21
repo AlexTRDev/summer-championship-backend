@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv'
 import type { Mode } from '../types/Database'
 
 dotenv.config({ path: './config.env' })
-
+process.env.FIREBASE_TYPE
 export const config: Mode = {
   DEV: {
     username: process.env.DB_USERNAME,
