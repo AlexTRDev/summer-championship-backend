@@ -23,7 +23,7 @@ export class Team extends Model<ITeam> {
   name!: string
 
   @Column({
-    type: DataType.ENUM(...Object.values(SerieTeam)),
+    type: DataType.STRING(3),
     allowNull: false,
     defaultValue: SerieTeam.A,
   })

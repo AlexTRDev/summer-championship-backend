@@ -30,8 +30,8 @@ export class Player extends Model<IPlayer, IPlayerCreation> implements IPlayer {
   @Column(DataType.STRING(25))
   birthday!: string
 
-  @Default(Gender.MASCULINO)
-  @Column(DataType.ENUM(...Object.values(Gender)))
+  @Default(Gender.MALE)
+  @Column(DataType.STRING(10))
   gender!: Gender
 
   @ForeignKey(() => Team)

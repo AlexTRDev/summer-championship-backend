@@ -1,8 +1,10 @@
 import type { Optional } from 'sequelize'
-import { AllowNull, BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
+import { AllowNull, BelongsTo, BelongsToMany, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript'
 import { Journey } from './Journey'
 import { Mvp } from './Mvp'
+import { Prediction } from './Prediction'
 import { Team } from './Team'
+import { Ticket } from './Ticket'
 
 export interface ICalendar {
   id?: number
@@ -66,4 +68,7 @@ export class Calendar extends Model<ICalendar, ICalendarCreation> implements ICa
 
   @BelongsTo(() => Mvp)
   mvp!: Mvp
+
+  @BelongsToMany(() => Ticket, () => Prediction)
+  tickets!: Ticket[]
 }

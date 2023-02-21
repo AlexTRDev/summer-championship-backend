@@ -29,8 +29,8 @@ export class Manager extends Model<IManager> implements IManager {
   birthday!: string
 
   @AllowNull(false)
-  @Default(Gender.MASCULINO)
-  @Column(DataType.ENUM(...Object.values(Gender)))
+  @Default(Gender.MALE)
+  @Column(DataType.STRING(10))
   gender!: Gender
 
   @ForeignKey(() => Team)
