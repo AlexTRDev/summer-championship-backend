@@ -1,6 +1,6 @@
 // Models
-import { AppError, catchAsync } from '../../utils'
 import type { NextFunction, Request, Response } from 'express'
+import { AppError, catchAsync } from '../../utils'
 
 import { User } from '../../models'
 
