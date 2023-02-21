@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express'
-import { IPrediction, ITicket, Prediction } from '../models'
+import type { IPrediction, ITicket } from '../models'
 
 import { predictionServices } from '../services'
 import { catchAsync } from '../utils'
@@ -54,11 +54,11 @@ export const deletePrediction = catchAsync(async (req, res, next) => {
 })
 
 export const bulkPredictions = catchAsync(async (req: Request, res: Response, _next: NextFunction) => {
-  const { predictions }: { predictions: IPrediction[] } = req.body
-  // const { sesionUser, wallet } = req
+  const { predictions, ticket }: { predictions: IPrediction[]; ticket: ITicket } = req.body
+  const { sesionUser, wallet } = req
 
-  // const data = await predictionServices.bulk(predictions, ticket, sesionUser.id, wallet)
-  const data = await Prediction.bulkCreate(predictions)
+  const data = await predictionServices.bulk(predictions, ticket, sesionUser.id, wallet)
+  // const data = await Prediction.bulkCreate(predictions)
 
   res.status(201).json({
     status: 'success',
