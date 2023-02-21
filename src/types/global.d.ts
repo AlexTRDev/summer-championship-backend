@@ -1,4 +1,18 @@
-import { Calendar, Image, Journey, Player, PlayerStats, Team, TeamStats, User } from '../models'
+import {
+  Calendar,
+  Image,
+  Journey,
+  Player,
+  PlayerStats,
+  Prediction,
+  Result,
+  Team,
+  TeamStats,
+  Ticket,
+  Transaction,
+  User,
+  Wallet,
+} from '../models'
 
 // global express interface
 declare global {
@@ -12,6 +26,12 @@ declare global {
       team: Team
       teamStats: TeamStats
       user: User
+      sesionUser: User
+      wallet: Wallet
+      transaction: Transaction
+      prediction: Prediction
+      ticket: Ticket
+      result: Result
     }
   }
 }

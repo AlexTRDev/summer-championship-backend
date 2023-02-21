@@ -1,6 +1,12 @@
-export enum UserStatus {
+export enum Status {
   ENABLE = 'ENABLE',
   DISABLE = 'DISABLE',
+}
+
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  OPERATOR = 'OPERATOR',
+  CLIENT = 'CLIENT',
 }
 
 export enum SerieTeam {
@@ -10,7 +16,13 @@ export enum SerieTeam {
 }
 
 export enum Gender {
-  MASCULINO = 'M',
-  FEMENINO = 'F',
-  OTRO = 'O',
+  MALE = 'M',
+  FEMALE = 'F',
+  OTHER = 'O',
+}
+
+export enum Result {
+  HOME = 'V',
+  AWAY = 'L',
+  DRAW = 'E',
 }

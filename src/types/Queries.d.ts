@@ -15,3 +15,4 @@ export interface IQueriesCalendar extends IQueries {
 export interface IQueriesPlayerStats extends IQueries {
   order?: string
 }
+export interface IQueriesTicket extends IQueriesCalendar {}
